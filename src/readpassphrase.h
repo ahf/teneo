@@ -26,6 +26,7 @@
 #define _READPASSPHRASE_H_
 
 #ifndef HAVE_READPASSPHRASE
+#include <stddef.h>
 
 #define RPP_ECHO_OFF    0x00		/* Turn off echo (default). */
 #define RPP_ECHO_ON     0x01		/* Leave echo on. */
