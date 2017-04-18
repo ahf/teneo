@@ -26,6 +26,9 @@ void buffer_writer_set_offset(buffer_writer_t *buffer_writer, size_t offset);
 
 bool buffer_writer_write_value(buffer_writer_t *buffer_writer, const void *value, size_t size);
 
+bool buffer_writer_write_asciiz(buffer_writer_t *buffer_writer, const char *str);
+bool buffer_writer_write_asciiz_with_linewrapping(buffer_writer_t *buffer_writer, const char *str, const size_t linewrapping);
+
 bool buffer_writer_write_uint8(buffer_writer_t *buffer_writer, uint8_t value);
 bool buffer_writer_write_uint16(buffer_writer_t *buffer_writer, uint16_t value);
 bool buffer_writer_write_uint32(buffer_writer_t *buffer_writer, uint32_t value);

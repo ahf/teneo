@@ -52,15 +52,28 @@ static bool openssh_write_public(const char *output_directory, const char *usern
 
     buffer_base64_encode(body, &body_base64);
 
-    write(fd, "ssh-ed25519 ", 12);
-    write(fd, body_base64->data, body_base64->size);
-    write(fd, " ", 1);
-    write(fd, username, username_length);
-    write(fd, "\n", 1);
+    struct buffer * final_buf = buffer_new(12 + body_base64->size + 1 + username_length + 1);
+    struct buffer_writer * final_writer = buffer_writer_new(final_buf);
+
+    buffer_writer_write_asciiz(final_writer, "ssh-ed25519 ");
+    buffer_writer_write_value(final_writer, body_base64->data, body_base64->size);
+    buffer_writer_write_asciiz(final_writer, " ");
+    buffer_writer_write_value(final_writer, username, username_length);
+    buffer_writer_write_asciiz(final_writer, "\n");
 
     buffer_free(body);
     buffer_free(body_base64);
     buffer_writer_free(body_writer);
+
+    const char * final_str = buffer_string(final_buf);
+    if(write(fd, final_str, strlen(final_str)) != (ssize_t) strlen(final_str))
+    {
+       fprintf(stderr, "Error: Unable to write public key file (%s)\n", strerror(errno));
+       return false;
+    }
+
+    buffer_free(final_buf);
+    buffer_writer_free(final_writer);
 
     if (close(fd))
     {
@@ -158,33 +171,39 @@ static bool openssh_write_secret(const char *output_directory, const char *usern
     while (padding--)
         buffer_writer_write_uint8(body_writer, ++pad & 0xff);
 
+    buffer_writer_free(body_writer);
+
     // BASE64 encode the buffer.
     buffer_base64_encode(body, &body_base64);
 
-    write(fd, "-----BEGIN OPENSSH PRIVATE KEY-----\n", 36);
 
-    int remaining = body_base64->size;
+    struct buffer * fd_buf = buffer_new(
+      36   // "BEGIN OPENSSH PRIVATE KEY..."
+      + body_base64->size
+      + (body_base64->size / 70) + (body_base64->size % 70) // newlines
+      + 34 // "END OPENSSH PRIVATE KEY..."
+    );
+    struct buffer_writer * fd_writer = buffer_writer_new(fd_buf);
 
-    while (remaining >= 70)
+    buffer_writer_write_asciiz(fd_writer, "-----BEGIN OPENSSH PRIVATE KEY-----\n");
+    buffer_writer_write_asciiz_with_linewrapping(fd_writer, (char *) body_base64->data, 70);
+    buffer_writer_write_asciiz(fd_writer, "\n");
+    buffer_writer_write_asciiz(fd_writer, "-----END OPENSSH PRIVATE KEY-----\n");
+
+    buffer_writer_free(fd_writer);
+
+    const char * fd_str = buffer_string(fd_buf);
+    if(write(fd, fd_str, strlen(fd_str)) != (ssize_t) strlen(fd_str))
     {
-        write(fd, body_base64->data + (body_base64->size - remaining), 70);
-        write(fd, "\n", 1);
-        remaining -= 70;
+       fprintf(stderr, "Error: Unable to write private key file (%s)\n", strerror(errno));
+       return false;
     }
-
-    if (remaining != 0)
-    {
-        write(fd, body_base64->data + (body_base64->size - remaining), remaining);
-        write(fd, "\n", 1);
-    }
-
-    write(fd, "-----END OPENSSH PRIVATE KEY-----\n", 34);
 
     close(fd);
 
     buffer_free(body);
     buffer_free(body_base64);
-    buffer_writer_free(body_writer);
+    buffer_free(fd_buf);
 
     free(secret_file_path);
 
