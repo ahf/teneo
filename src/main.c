@@ -144,53 +144,58 @@ int main(int argc, char *argv[])
     {
         fprintf(stderr, "Error: Program failed to read passphrases.\n");
         success = false;
-    }else if(0 != strncmp(passphrase, passphrase_verify, sizeof(passphrase_verify)))
+        goto cleanup_passphrase_and_exit;
+    }
+
+    if(0 != strncmp(passphrase, passphrase_verify, sizeof(passphrase_verify)))
     {
         fprintf(stderr, "Error: Passphrases do not match.\n");
         success = false;
+        goto cleanup_passphrase_and_exit;
     }
-    else if(strlen(passphrase) < 10)
+
+    if(strlen(passphrase) < 10)
     {
         fprintf(stderr, "Error: Provided passphrase is shorter than 10 characters.\n");
         success = false;
+        goto cleanup_passphrase_and_exit;
+    }
+
+    unsigned char public[crypto_sign_PUBLICKEYBYTES];
+    unsigned char secret[crypto_sign_SECRETKEYBYTES];
+
+    sodium_mlock(public, sizeof(public));
+    sodium_mlock(secret, sizeof(secret));
+    sodium_mlock(username, username_length);
+
+    // Avoid randomness here.
+    sodium_memzero(public, sizeof(public));
+    sodium_memzero(secret, sizeof(secret));
+
+    printf("Generating key pair using the '%s' profile ...\n", profile_name);
+    printf("This may take a little while ...\n");
+
+    if (generate_keypair(profile_name, username, username_length, passphrase, strlen(passphrase), secret, public))
+    {
+        printf("Succesfully generated key pair ...\n");
+
+        if (ssh_output)
+        {
+            openssh_write(output_directory, username, username_length, secret, public);
+        }
     }
     else
     {
-        unsigned char public[crypto_sign_PUBLICKEYBYTES];
-        unsigned char secret[crypto_sign_SECRETKEYBYTES];
-
-        sodium_mlock(public, sizeof(public));
-        sodium_mlock(secret, sizeof(secret));
-        sodium_mlock(username, username_length);
-
-        // Avoid randomness here.
-        sodium_memzero(public, sizeof(public));
-        sodium_memzero(secret, sizeof(secret));
-
-        printf("Generating key pair using the '%s' profile ...\n", profile_name);
-        printf("This may take a little while ...\n");
-
-        if (generate_keypair(profile_name, username, username_length, passphrase, strlen(passphrase), secret, public))
-        {
-            printf("Succesfully generated key pair ...\n");
-
-            if (ssh_output)
-            {
-                openssh_write(output_directory, username, username_length, secret, public);
-            }
-        }
-        else
-        {
-            fprintf(stderr, "Error: Unable to generate key pair ...\n");
-            success = false;
-        }
-
-        // Zeros out the buffers as well.
-        sodium_munlock(public, sizeof(public));
-        sodium_munlock(secret, sizeof(secret));
-        sodium_munlock(username, username_length);
+        fprintf(stderr, "Error: Unable to generate key pair ...\n");
+        success = false;
     }
 
+    // Zeros out the buffers as well.
+    sodium_munlock(public, sizeof(public));
+    sodium_munlock(secret, sizeof(secret));
+    sodium_munlock(username, username_length);
+
+cleanup_passphrase_and_exit:
     sodium_munlock(passphrase, sizeof(passphrase));
     sodium_munlock(passphrase_verify, sizeof(passphrase_verify));
 
