@@ -26,9 +26,9 @@ struct buffer* MUSTCHECK buffer_new_random(size_t size);
 void buffer_free(struct buffer *buffer);
 
 const char *buffer_string(struct buffer *buffer);
-size_t buffer_size(struct buffer *buffer);
+size_t buffer_size(const struct buffer *buffer);
 
-bool MUSTCHECK buffer_equal(struct buffer *buffer, struct buffer *other_buffer);
+bool MUSTCHECK buffer_equal(const struct buffer *buffer, const struct buffer *other_buffer);
 
 bool MUSTCHECK buffer_hex_encode(struct buffer *buffer, struct buffer **result);
 bool MUSTCHECK buffer_hex_decode(struct buffer *buffer, struct buffer **result);
