@@ -156,7 +156,10 @@ static bool openssh_write_secret(const char *output_directory, const char *usern
     ok &= buffer_writer_write_value(body_writer, public, 32);
 
     // Private key section
-    uint32_t checkint = randombytes_random();
+
+    // {checkint} is a random integer used to identify a correctly decrypted
+    // private key in cases where the private key is encrypted. ours are not.
+    const uint32_t checkint = 0x12345678;
 
     ok &= buffer_writer_write_uint32(body_writer, private_length + padding);
 
