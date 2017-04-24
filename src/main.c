@@ -48,7 +48,10 @@ static struct option options[] = {
     {"user", required_argument, NULL, 'u'},
 
     // Help.
-    {"help", no_argument, NULL, 'h'}
+    {"help", no_argument, NULL, 'h'},
+
+    // End of option array:
+    {NULL, 0, NULL, 0}
 };
 
 int main(int argc, char *argv[])
@@ -177,7 +180,7 @@ int main(int argc, char *argv[])
 
     if (generate_keypair(profile_name, username, username_length, passphrase, strlen(passphrase), secret, public))
     {
-        printf("Succesfully generated key pair ...\n");
+        printf("Successfully generated key pair ...\n");
 
         if (ssh_output)
         {

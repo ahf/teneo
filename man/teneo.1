@@ -1,0 +1,49 @@
+.TH ID "1" "February 2016" "GNU coreutils 8.25" "User Commands"
+.SH NAME
+teneo \- Regenerable ed25519 keys for OpenSSH
+.SH SYNOPSIS
+.B teneo
+[\fI\,options\/\fR]... [\fI\,output directory\/\fR]
+.SH DESCRIPTION
+.\" Add any additional description here
+.PP
+Teneo allows you to deterministically generate an ed25519 key pair for OpenSSH
+from a set of parameters. This allows you to (re)generate your key pair on a
+computer which, for example, lacks persistent storage.
+
+You must be able to remember three things to (re)generate your key pair;
+
+1. A user defined "username", which can be any string.
+
+2. A Teneo defined "profile" name. See \fBAvailable Profiles\fR.
+
+3. Your personally selected passphrase.
+.SS "Available Profiles:"
+.TP
+.IP
+\fB2015v1\fR - scrypt() + salsa20/8 + sha256 as KDF
+.SS "Key Options:"
+.TP
+\fB\-u\fR, \fB\-\-user\fR
+Specify which username to use [as salt]
+.TP
+\fB\-p\fR, \fB\-\-profile\fR
+Specify which KDF profile to use
+.SS "Output Format Options:"
+.TP
+\fB\-s\fR, \fB\-\-openssh\fR
+Output OpenSSH public and private key \fBid_ed25519{,.pub}\fR
+.SS "Help Options:"
+.TP
+\fB\-\-help\fR
+display option help information and exit
+.PP
+Without any OPTION, print \fB--help\fR and exit.
+.SH AUTHOR
+Written by Alexander Færøy <ahf@0x90.dk>.
+.SH "REPORTING BUGS"
+Github issue page: <https://github.com/ahf/teneo/issues>
+.SH COPYRIGHT
+Copyright \(co 2017 Alexander Færøy <ahf@0x90.dk>
+.TP
+License: BSD-3-clause

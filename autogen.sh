@@ -1,3 +1,3 @@
 #!/bin/sh
 
-autoreconf --install --force
+autoreconf --install --force -W all
