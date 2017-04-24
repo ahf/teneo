@@ -74,6 +74,21 @@ You must be able to remember three things to (re)generate your key pair;
         $ openssl sha256 id_ed25519.pub
         SHA256(id_ed25519.pub)= a394eb08102eefb020d3274285671d113604690bedb551c5dfbf27c0d6844482
 
+## Compiling on Ubuntu
+
+```bash
+# if you want to use a proxy for git via https:
+# git config --global http.proxy 'socks5://127.0.0.1:9150'
+
+git clone https://github.com/ahf/teneo
+apt-get install autoconf libtool pkg-config libsodium-dev -y
+cd teneo/
+./autogen.sh
+./configure
+make
+# Binary will be named ./src/teneo
+```
+
 ## Authors
 
 - [Alexander Færøy](https://twitter.com/ahfaeroey) ([ahf@0x90.dk](mailto:ahf@0x90.dk)).
