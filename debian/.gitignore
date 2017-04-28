@@ -1,0 +1,8 @@
+*.log
+*.substvars
+*.debhelper
+autoreconf.*
+/files
+/passphrase-identity
+/passphrase-identity-dev
+/tmp

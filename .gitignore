@@ -1,3 +1,8 @@
+passphrase-identity_*.orig.tar.gz
+debian/debhelper-build-stamp
+debian/autoreconf.*
+id_ed25519
+id_ed25519.pub
 *.a
 *.cma
 *.cmi
@@ -45,6 +50,6 @@ m4/lt~obsolete.m4
 missing
 src/config.h
 stamp-h1
-teneo
+passphrase-identity
 test-driver
 tests/*.tmp.buffer
