@@ -1,13 +1,13 @@
 .TH ID "1" "February 2016" "GNU coreutils 8.25" "User Commands"
 .SH NAME
-teneo \- Regenerable ed25519 keys for OpenSSH
+passphrase-identity \- Regenerable ed25519 keys for OpenSSH
 .SH SYNOPSIS
-.B teneo
+.B passphrase-identity
 [\fI\,options\/\fR]... [\fI\,output directory\/\fR]
 .SH DESCRIPTION
 .\" Add any additional description here
 .PP
-Teneo allows you to deterministically generate an ed25519 key pair for OpenSSH
+Passphrase-identity allows you to deterministically generate an ed25519 key pair for OpenSSH
 from a set of parameters. This allows you to (re)generate your key pair on a
 computer which, for example, lacks persistent storage.
 
@@ -15,7 +15,7 @@ You must be able to remember three things to (re)generate your key pair;
 
 1. A user defined "username", which can be any string.
 
-2. A Teneo defined "profile" name. See \fBAvailable Profiles\fR.
+2. A Passphrase-identity defined "profile" name. See \fBAvailable Profiles\fR.
 
 3. Your personally selected passphrase.
 .SS "Available Profiles:"
@@ -42,7 +42,7 @@ Without any OPTION, print \fB--help\fR and exit.
 .SH AUTHOR
 Written by Alexander Færøy <ahf@0x90.dk>.
 .SH "REPORTING BUGS"
-Github issue page: <https://github.com/ahf/teneo/issues>
+Github issue page: <https://github.com/ahf/passphrase-identity/issues>
 .SH COPYRIGHT
 Copyright \(co 2017 Alexander Færøy <ahf@0x90.dk>
 .TP

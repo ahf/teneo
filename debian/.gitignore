@@ -3,6 +3,6 @@
 *.debhelper
 autoreconf.*
 /files
-/teneo
-/teneo-dev
+/passphrase-identity
+/passphrase-identity-dev
 /tmp

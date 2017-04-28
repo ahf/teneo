@@ -1,9 +1,9 @@
-bin_PROGRAMS = teneo
+bin_PROGRAMS = passphrase-identity
 
-teneo_CFLAGS = @TENEO_CFLAGS@ @SODIUM_CFLAGS@
-teneo_LDFLAGS = @SODIUM_LIBS@
+passphrase_identity_CFLAGS = @PASSPHRASE_IDENTITY_CFLAGS@ @SODIUM_CFLAGS@
+passphrase_identity_LDFLAGS = @SODIUM_LIBS@
 
-teneo_SOURCES = \
+passphrase_identity_SOURCES = \
 	buffer.c \
 	buffer_writer.c \
 	main.c \

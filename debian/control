@@ -1,4 +1,4 @@
-Source: teneo
+Source: passphrase-identity
 Section: net
 Priority: optional
 Maintainer: Alexander Færøy <ahf@0x90.dk>
@@ -11,10 +11,10 @@ Build-Depends: libtool (>= 2.4.6),
                dh-autoreconf (>= 11),
                dh-strip-nondeterminism (>= 0.015)
 
-Package: teneo
+Package: passphrase-identity
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Regenerable ed25519 keys for OpenSSH
- Teneo allows you to deterministically generate an ed25519 key pair for OpenSSH
+ Passphrase-identity allows you to deterministically generate an ed25519 key pair for OpenSSH
  from a set of parameters. This allows you to (re)generate your key pair on a
  computer which, for example, lacks persistent storage.

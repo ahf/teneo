@@ -1,4 +1,4 @@
-teneo_*.orig.tar.gz
+passphrase-identity_*.orig.tar.gz
 debian/debhelper-build-stamp
 debian/autoreconf.*
 id_ed25519
@@ -50,6 +50,6 @@ m4/lt~obsolete.m4
 missing
 src/config.h
 stamp-h1
-teneo
+passphrase-identity
 test-driver
 tests/*.tmp.buffer

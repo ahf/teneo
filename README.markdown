@@ -1,20 +1,20 @@
-# Teneo
+# Passphrase-identity
 
 Regenerable ed25519 keys for OpenSSH.
 
-Teneo allows you to deterministically generate an ed25519 key pair for OpenSSH
+Passphrase-identity allows you to deterministically generate an ed25519 key pair for OpenSSH
 from a set of parameters. This allows you to (re)generate your key pair on a
 computer which, for example, lacks persistent storage.
 
 You must be able to remember three things to (re)generate your key pair;
 
 1. A user defined "username", which can be any string.
-2. A Teneo defined "profile" name. There's currently only one profile available: `2015v1`, which uses `scrypt()` + `salsa20/8` + `sha256` as KDF.
+2. A Passphrase-identity defined "profile" name. There's currently only one profile available: `2015v1`, which uses `scrypt()` + `salsa20/8` + `sha256` as KDF.
 3. Your personally selected passphrase.
 
 ## Usage
 
-    Usage: ./teneo [ options ] [ output directory ]
+    Usage: ./passphrase-identity [ options ] [ output directory ]
 
     Help Options:
       -h, --help                Show help options
@@ -31,9 +31,9 @@ You must be able to remember three things to (re)generate your key pair;
 
 ## Example Usage
 
-1. We start by creating a key pair for OpenSSH using `ahf@teneo.0x90.dk` as username.
+1. We start by creating a key pair for OpenSSH using `ahf@passphrase-identity.0x90.dk` as username.
 
-        $ ./teneo --openssh --user ahf@teneo.0x90.dk
+        $ ./passphrase-identity --openssh --user ahf@passphrase-identity.0x90.dk
         Passphrase: foobar
         Generating key pair using the '2015v1' profile ...
         This may take a little while ...
@@ -51,7 +51,7 @@ You must be able to remember three things to (re)generate your key pair;
         -----END OPENSSH PRIVATE KEY-----
 
         $ cat id_ed25519.pub
-        ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICthH3UNgcsJ5hv4uzfDJixImsAOzu2ik5KWKhnoY1fY ahf@teneo.0x90.dk
+        ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICthH3UNgcsJ5hv4uzfDJixImsAOzu2ik5KWKhnoY1fY ahf@passphrase-identity.0x90.dk
 
         $ openssl sha256 id_ed25519.pub
         SHA256(id_ed25519.pub)= a394eb08102eefb020d3274285671d113604690bedb551c5dfbf27c0d6844482
@@ -63,7 +63,7 @@ You must be able to remember three things to (re)generate your key pair;
 
 3. Create the key again using the same parameters and passphrase.
 
-        $ ./teneo --openssh --user ahf@teneo.0x90.dk
+        $ ./passphrase-identity --openssh --user ahf@passphrase-identity.0x90.dk
         Passphrase: foobar
         Generating key pair using the '2015v1' profile ...
         This may take a little while ...
@@ -80,13 +80,13 @@ You must be able to remember three things to (re)generate your key pair;
 # if you want to use a proxy for git via https:
 # git config --global http.proxy 'socks5://127.0.0.1:9150'
 
-git clone https://github.com/ahf/teneo
+git clone https://github.com/ahf/passphrase-identity
 apt-get install autoconf libtool pkg-config libsodium-dev -y
-cd teneo/
+cd passphrase-identity/
 ./autogen.sh
 ./configure
 make
-# Binary will be named ./src/teneo
+# Binary will be named ./src/passphrase-identity
 ```
 
 ## Authors

@@ -1,7 +1,7 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: teneo
+Upstream-Name: passphrase-identity
 Upstream-Contact: Alexander Færøy <ahf@0x90.dk>
-Source: https://github.com/ahf/teneo
+Source: https://github.com/ahf/passphrase-identity
 
 Files: *
 Copyright: 2015-2017 Alexander Færøy <ahf@0x90.dk>
